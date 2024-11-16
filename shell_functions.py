@@ -11,16 +11,20 @@ def show_help():
     gestion fichiers:
 
     - cd <dir>       : Change the current directory to <dir>
-    - view           : List files and directories in the current directory
+    - ls             : List files and directories in the current directory
     - read           : Read the content of a file
     - mkdir <dir>    : Create a new directory <dir>
     - rmdir <dir>    : Remove directory
     - mk <dir>       : Create a file
     - rm <dir>       : Remove a file
-    - ps             : Lister tous les processus    
+    - ps             : Lister tous les processus 
+    - launch         : launch un processus
+    - kill           : Terminer l'excution un processus   
 
     """
     print(help_text)
+ 
+#Gestion fichiers
 
 # Command: cd (change directory)
 def cd(args):
@@ -32,7 +36,7 @@ def cd(args):
         print("no such file or directory.")
 
 # Command: view (List files and directories in the current directory)
-def view(args):
+def ls(args):
     try:
         if len(args) > 1:
             path = args[1]
@@ -101,6 +105,28 @@ def rm(args):
 #Command: ps (lister tous les processus)
 def ps():
     os.system("tasklist")
+
+#Command: Launch(start a process)
+def launch(args):
+    try:
+        process = subprocess.Popen(args, shell=True)
+        print(f"Process '{args}' started with PID {process.pid}")
+        return process.pid
+    except Exception as e:
+        print(f"Error launching process: {e}")
+
+#Command: stop (Terminer l'exuction dun processus)
+def stop(args):
+    try:
+        pid = int(args[1])
+        os.kill(pid, signal.SIGTERM)
+        print(f"Processus {pid} terminé avec succès.")
+    except ProcessLookupError:
+        print(f"Le processus {pid} n'existe pas.")
+    except PermissionError:
+        print(f"Permission refusée pour tuer le processus {pid}.")
+    except Exception as e:
+        print(f"Erreur inconnue: {e}")
 
 
 

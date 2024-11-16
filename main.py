@@ -2,10 +2,10 @@ import os
 import subprocess
 import shell_functions
 
-def load_text_editor():
+def load_shell():
     while True:
         current_path = os.getcwd()
-        input_user = input(f"{current_path}> ").strip()
+        input_user = input(f"{current_path}> ")
         args = input_user.split()
 
         if input_user == "exit":
@@ -19,8 +19,8 @@ def load_text_editor():
         elif args[0] == "cd":
             shell_functions.cd(args)
 
-        elif args[0] == "view":
-            shell_functions.view(args)
+        elif args[0] == "ls":
+            shell_functions.ls(args)
 
         elif args[0] == "read":
             shell_functions.read(args)
@@ -37,14 +37,18 @@ def load_text_editor():
         elif args[0] == "rm":
             shell_functions.rm(args)
 
-        elif args[0] == "ps":
+    #gestion processus
+        elif args == "ps":
             shell_functions.ps()
         
-        elif args[0] == "stop_process":
-            shell_functions.stop_process(args)
-
+        elif args[0] == "launch":
+            shell_functions.launch(args[1])
+        
+        elif args[0] == "stop":
+            shell_functions.stop(args)
+        
         else:
             print("Cette commande n'est pas reconnu.")
 
-load_text_editor()
+load_shell()
 
