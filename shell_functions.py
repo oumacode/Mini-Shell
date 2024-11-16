@@ -102,10 +102,7 @@ def rm(args):
 def ps():
     os.system("tasklist")
 
-#Command: stop_process ()
-def stop_process(args):
-    os.kill(args[1],signal.SIGILL)
 
-def get_pid():
-    os.
+
+
 
