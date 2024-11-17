@@ -1,5 +1,4 @@
 import os
-import subprocess
 import shell_functions
 
 def load_shell():
@@ -8,7 +7,14 @@ def load_shell():
         input_user = input(f"{current_path}> ")
         args = input_user.split()
 
-        if input_user == "exit":
+    #gestion utilisateurs
+        if args == "whoami":
+            shell_functions.whoami()
+
+        elif input_user == "list users":
+            shell_functions.list_users()
+
+        elif input_user == "exit":
             print("Exiting mini-shell.")
             break
 
@@ -40,13 +46,13 @@ def load_shell():
     #gestion processus
         elif args == "ps":
             shell_functions.ps()
-        
+
         elif args[0] == "launch":
             shell_functions.launch(args[1])
-        
+            
         elif args[0] == "stop":
-            shell_functions.stop(args)
-        
+            shell_functions.stop(args)     
+            
         else:
             print("Cette commande n'est pas reconnu.")
 
