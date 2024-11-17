@@ -1,27 +1,47 @@
 import os
 import shell_functions
 
+print("\033[1;36mWelcome to Your Mini Shell!\033[0m")
+
+def welcome_screen():
+    print("\nLet's get started! Please select an option below:")
+    print("1. Get Help ")
+    print("2. Start Shell")
+    print("3. Exit Shell")
+    input_user = input("Please enter the number corresponding to your choice: ")
+    handle_selection(input_user)
+
+def handle_selection(input_user):
+    if input_user == "1":
+        shell_functions.show_help()
+        load_shell()
+    elif input_user == "2":
+        load_shell()
+    elif input_user == "3":
+        exit()
+    else:
+        print("\033[38;5;124mInvalid choice, please try again.\033[0m")
+        welcome_screen()
+
 def load_shell():
     while True:
-        current_path = os.getcwd()
-        input_user = input(f"{current_path}> ")
+        input_user = input(f'\033[36m{os.getcwd()}>\033[0m')
         args = input_user.split()
 
-    #gestion utilisateurs
-        if args == "whoami":
+        # User Management
+        if input_user == "whoami":
             shell_functions.whoami()
 
         elif input_user == "list users":
             shell_functions.list_users()
 
         elif input_user == "exit":
-            print("Exiting mini-shell.")
             break
 
         elif input_user == "help":
             shell_functions.show_help()
 
-    #gestion fichiers
+        # File Management
         elif args[0] == "cd":
             shell_functions.cd(args)
 
@@ -43,18 +63,17 @@ def load_shell():
         elif args[0] == "rm":
             shell_functions.rm(args)
 
-    #gestion processus
-        elif args == "ps":
+        # Process Management
+        elif input_user == "ps":
             shell_functions.ps()
 
         elif args[0] == "launch":
             shell_functions.launch(args[1])
-            
+
         elif args[0] == "stop":
             shell_functions.stop(args)     
-            
+
         else:
-            print("Cette commande n'est pas reconnu.")
+            print("\033[38;5;124mCommand not recognized. Try 'help' for a list of commands.\033[0m")
 
-load_shell()
-
+welcome_screen()

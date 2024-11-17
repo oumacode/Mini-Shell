@@ -2,7 +2,29 @@ import os
 import signal
 import subprocess
 
-#Gestion utilisateurs
+def show_help():
+    print("\n\033[38;5;98mUser Management Commands:\033[0m")
+
+    print("- whoami     : print the current user")
+    print("- list users : list all users")
+
+    print("\n\033[38;5;98mFile Management Commands:\033[0m")
+
+    print("- cd <dir>   : Change the current directory to <dir>")
+    print("- ls         : List files and directories in the current directory")
+    print("- read <file>: Read the content of a file")
+    print("- mkdir <dir>: Create a new directory <dir>")
+    print("- rmdir <dir>: Remove directory <dir>")
+    print("- mk <file>  : Create an empty file <file>")
+    print("- rm <file>  : Remove a file <file>")
+
+    print("\n\033[38;5;98mProcess Management Commands:\033[0m")
+    
+    print("- ps         : List all running processes")
+    print("- launch <cmd>: Launch a process <cmd>")
+    print("- stop <pid> : Terminate a process by its <pid>")
+    
+# User Management
 def whoami():
     print(os.getlogin())
 
@@ -11,40 +33,18 @@ def list_users():
         result = subprocess.run(['net', 'user'], capture_output=True, text=True, check=True)
         print(result.stdout)
     except subprocess.CalledProcessError as e:
-        print(f"Erreur lors de la récupération des utilisateurs : {e}")
+        print(f"Error retrieving users: {e}")
     except Exception as e:
-        print(f"Erreur inconnue : {e}")
+        print(f"Unknown error: {e}")
         
-def show_help():
-    help_text = """
-    Mini-Shell Help:
-
-    - exit           : Exit the shell
-
-    gestion fichiers:
-
-    - cd <dir>       : Change the current directory to <dir>
-    - ls             : List files and directories in the current directory
-    - read           : Read the content of a file
-    - mkdir <dir>    : Create a new directory <dir>
-    - rmdir <dir>    : Remove directory
-    - mk <dir>       : Create a file
-    - rm <dir>       : Remove a file
-    - ps             : Lister tous les processus 
-    - launch         : launch un processus
-    - stop           : Terminer l'excution un processus   
-
-    """
-    print(help_text)
- 
-#Gestion fichiers
+# File Management
 def cd(args):
     try:
         os.chdir(args[1]) 
     except IndexError:
         print("cd: missing argument")
     except FileNotFoundError:
-        print("no such file or directory.")
+        print("No such file or directory.")
 
 def ls(args):
     try:
@@ -82,7 +82,7 @@ def rmdir(args):
     except IndexError:
         print("rmdir: missing argument")
     except FileNotFoundError:
-        print("Directory does not exists.")  
+        print("Directory does not exist.")  
 
 def mk(args):
     if len(args) < 2:  
@@ -100,11 +100,11 @@ def rm(args):
         os.remove(args[1]) 
         print("File is removed")
     except IndexError:
-        print("mkdir: missing argument")
+        print("rm: missing argument")
     except FileExistsError:
-        print("Directory does not exists.") 
+        print("Directory does not exist.") 
 
-#Gestion processus 
+# Process Management 
 def ps():
     os.system("tasklist")
 
@@ -120,15 +120,10 @@ def stop(args):
     try:
         pid = int(args[1])
         os.kill(pid, signal.SIGTERM)
-        print(f"Processus {pid} terminé avec succès.")
+        print(f"Process {pid} successfully terminated.")
     except ProcessLookupError:
-        print(f"Le processus {pid} n'existe pas.")
+        print(f"Process {pid} does not exist.")
     except PermissionError:
-        print(f"Permission refusée pour tuer le processus {pid}.")
+        print(f"Permission denied to kill process {pid}.")
     except Exception as e:
-        print(f"Erreur inconnue: {e}")
-
-
-
-
-
+        print(f"Unknown error: {e}")
