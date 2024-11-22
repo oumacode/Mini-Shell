@@ -1,27 +1,28 @@
 import os
 import shell_functions
+import time
 
 print("\033[1;36mWelcome to Your Mini Shell!\033[0m")
 
 def welcome_screen():
-    print("\nLet's get started! Please select an option below:")
-    print("1. Get Help ")
-    print("2. Start Shell")
-    print("3. Exit Shell")
-    input_user = input("Please enter the number corresponding to your choice: ")
-    handle_selection(input_user)
+        print("\nLet's get started! Please select an option below:")
+        print("1. Get Help ")
+        print("2. Start Shell")
+        print("3. Exit Shell")
+        input_user = input("Please enter the number corresponding to your choice: ")
 
-def handle_selection(input_user):
-    if input_user == "1":
-        shell_functions.show_help()
-        load_shell()
-    elif input_user == "2":
-        load_shell()
-    elif input_user == "3":
-        exit()
-    else:
-        print("\033[38;5;124mInvalid choice, please try again.\033[0m")
-        welcome_screen()
+        if input_user == "1":
+            shell_functions.show_help()
+            welcome_screen()
+        elif input_user == "2":
+            load_shell()
+        elif input_user == "3":
+            print("\033[1;32mExiting Shell. Goodbye!\033[0m") 
+            time.sleep(1) 
+            exit()
+        else:
+            print("\033[38;5;124mInvalid choice, please try again.\033[0m")
+            welcome_screen()
 
 def load_shell():
     while True:
@@ -36,6 +37,8 @@ def load_shell():
             shell_functions.list_users()
 
         elif input_user == "exit":
+            print("\033[1;32mExiting Shell. Goodbye!\033[0m") 
+            time.sleep(1)
             break
 
         elif input_user == "help":
@@ -71,8 +74,8 @@ def load_shell():
             shell_functions.launch(args[1])
 
         elif args[0] == "stop":
-            shell_functions.stop(args)     
-
+            shell_functions.stop(args)
+            
         else:
             print("\033[38;5;124mCommand not recognized. Try 'help' for a list of commands.\033[0m")
 

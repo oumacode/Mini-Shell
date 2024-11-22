@@ -127,3 +127,4 @@ def stop(args):
         print(f"Permission denied to kill process {pid}.")
     except Exception as e:
         print(f"Unknown error: {e}")
+
