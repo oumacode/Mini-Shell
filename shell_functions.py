@@ -23,6 +23,11 @@ def show_help():
     print("- ps         : List all running processes")
     print("- launch <cmd>: Launch a process <cmd>")
     print("- stop <pid> : Terminate a process by its <pid>")
+
+    print("\n\033[38;5;98mSystem Info Commands:\033[0m")
+    
+    print("- systeminfo :Display system information such as OS details, CPU usage, etc.  ")
+    print("- run <path> : Run a script or executable at the specified <path>. ")
     
 # User Management
 def whoami():
@@ -128,3 +133,23 @@ def stop(args):
     except Exception as e:
         print(f"Unknown error: {e}")
 
+#System Info 
+def systeminfo():
+    os.system("systeminfo")
+
+def run_script(args):
+    if len(args) < 2:
+        print("run: missing script argument.")
+        return
+    script_path = args[1]
+    if not os.path.isfile(script_path):
+        print(f"Error: {script_path} not found.")
+        return
+    file_extension = os.path.splitext(script_path)[1]
+    if file_extension == ".ps1":
+        try:
+            subprocess.run(["powershell", "-ExecutionPolicy", "Bypass", "-File", script_path], check=True)
+        except subprocess.CalledProcessError as e:
+            print(f"Error executing PowerShell script: {e}")
+    else:
+        print(f"Unsupported script type: {file_extension}. Only .ps1 are supported.")
