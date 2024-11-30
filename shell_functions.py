@@ -3,53 +3,48 @@ import signal
 import subprocess
 
 def show_help():
-    print("\n\033[38;5;98mUser Management Commands:\033[0m")
+    print("\n\033[38;5;98mCommandes de gestion des utilisateurs:\033[0m")
 
-    print("- whoami     : print the current user")
-    print("- list users : list all users")
+    print("- whoami     : Afficher l'utilisateur actuel")
+    print("- list users : lister tous les utilisateurs")
 
-    print("\n\033[38;5;98mFile Management Commands:\033[0m")
+    print("\n\033[38;5;98mCommandes de gestion des fichiers:\033[0m")
 
-    print("- cd <dir>   : Change the current directory to <dir>")
-    print("- ls         : List files and directories in the current directory")
-    print("- read <file>: Read the content of a file")
-    print("- mkdir <dir>: Create a new directory <dir>")
-    print("- rmdir <dir>: Remove directory <dir>")
-    print("- mk <file>  : Create an empty file <file>")
-    print("- rm <file>  : Remove a file <file>")
+    print("- cd <dir>   : Changer le répertoire courant vers <dir>")
+    print("- ls         : Lister les fichiers et répertoires dans le répertoire courant")
+    print("- read <file>: Lire le contenu d'un fichier")
+    print("- mkdir <dir>: Créer un nouveau répertoire <dir>")
+    print("- rmdir <dir>: Supprimer le répertoire <dir>")
+    print("- mk <file>  : Créer un fichier vide <file>")
+    print("- rm <file>  : Supprimer un fichier <file>")
 
-    print("\n\033[38;5;98mProcess Management Commands:\033[0m")
+    print("\n\033[38;5;98mCommandes de gestion des processus:\033[0m")
     
-    print("- ps         : List all running processes")
-    print("- launch <cmd>: Launch a process <cmd>")
-    print("- stop <pid> : Terminate a process by its <pid>")
+    print("- ps         : Lister tous les processus en cours")
+    print("- start cmd : Lancer un processus <cmd>")
+    print("- stop <pid> : Terminer un processus par son <pid>")
 
-    print("\n\033[38;5;98mSystem Info Commands:\033[0m")
+    print("\n\033[38;5;98mCommande d'informations système:\033[0m")
     
-    print("- systeminfo :Display system information such as OS details, CPU usage, etc.  ")
-    print("- run <path> : Run a script or executable at the specified <path>. ")
+    print("- systeminfo : Afficher les informations système telles que les détails de l'OS, l'utilisation du CPU, etc.")
+    print("- run <path> : Exécuter un script ou un fichier exécutable au chemin spécifié <path>.")
     
-# User Management
+# Gestion des utilisateurs
 def whoami():
     print(os.getlogin())
 
 def list_users():
-    try:
-        result = subprocess.run(['net', 'user'], capture_output=True, text=True, check=True)
-        print(result.stdout)
-    except subprocess.CalledProcessError as e:
-        print(f"Error retrieving users: {e}")
-    except Exception as e:
-        print(f"Unknown error: {e}")
+    result = subprocess.run(['net', 'user'], capture_output=True, text=True, check=True)
+    print(result.stdout)
         
-# File Management
+# Gestion des fichiers
 def cd(args):
     try:
         os.chdir(args[1]) 
     except IndexError:
-        print("cd: missing argument")
+        print("cd : argument manquant")
     except FileNotFoundError:
-        print("No such file or directory.")
+        print("Aucun fichier ou répertoire de ce type.")
 
 def ls(args):
     try:
@@ -60,96 +55,96 @@ def ls(args):
         entries = os.listdir(path)
         print("\n".join(entries))
     except FileNotFoundError:
-        print("No such file or directory")
+        print("Aucun fichier ou répertoire de ce type")
 
 def read(args):
     try:
         with open(args[1], 'r') as file:
             print(file.read())
     except IndexError:
-        print("read: missing argument.")
+        print("read : argument manquant.")
     except FileNotFoundError:
-        print("No such file")
+        print("Aucun fichier de ce type")
 
 def mkdir(args):
     try:
         os.mkdir(args[1])  
-        print("Directory is created")
+        print("Répertoire créé")
     except IndexError:
-        print("mkdir: missing argument")
+        print("mkdir : argument manquant")
     except FileExistsError:
-        print("Directory already exists.")
+        print("Le répertoire existe déjà.")
 
 def rmdir(args):
     try:
         os.removedirs(args[1]) 
-        print("Directory is removed")
+        print("Répertoire supprimé")
     except IndexError:
-        print("rmdir: missing argument")
+        print("rmdir : argument manquant")
     except FileNotFoundError:
-        print("Directory does not exist.")  
+        print("Le répertoire n'existe pas.")  
 
 def mk(args):
     if len(args) < 2:  
-        print("mk: missing argument")
+        print("mk : argument manquant")
         return
     try:
         with open(args[1], 'w') as file:
             pass 
-        print(f"File '{args[1]}' is created.")
+        print(f"Fichier '{args[1]}' créé.")
     except Exception as e: 
-        print(f"Error creating file: {e}")
+        print(f"Erreur lors de la création du fichier : {e}")
 
 def rm(args):
     try:
         os.remove(args[1]) 
-        print("File is removed")
+        print("Fichier supprimé")
     except IndexError:
-        print("rm: missing argument")
+        print("rm : argument manquant")
     except FileExistsError:
-        print("Directory does not exist.") 
+        print("Le répertoire n'existe pas.") 
 
-# Process Management 
+# Gestion des processus 
 def ps():
     os.system("tasklist")
 
-def launch(args):
+def start(args):
     try:
         process = subprocess.Popen(args, shell=True)
-        print(f"Process '{args}' started with PID {process.pid}")
+        print(f"Processus '{args}' lancé")
         return process.pid
     except Exception as e:
-        print(f"Error launching process: {e}")
+        print(f"Erreur lors du lancement du processus : {e}")
 
 def stop(args):
     try:
         pid = int(args[1])
         os.kill(pid, signal.SIGTERM)
-        print(f"Process {pid} successfully terminated.")
+        print(f"Processus {pid} terminé avec succès.")
     except ProcessLookupError:
-        print(f"Process {pid} does not exist.")
+        print(f"Le processus {pid} n'existe pas.")
     except PermissionError:
-        print(f"Permission denied to kill process {pid}.")
+        print(f"Permission refusée pour tuer le processus {pid}.")
     except Exception as e:
-        print(f"Unknown error: {e}")
+        print(f"Erreur inconnue: {e}")
 
-#System Info 
+# Informations système 
 def systeminfo():
     os.system("systeminfo")
 
 def run_script(args):
     if len(args) < 2:
-        print("run: missing script argument.")
+        print("run : argument de script manquant.")
         return
     script_path = args[1]
     if not os.path.isfile(script_path):
-        print(f"Error: {script_path} not found.")
+        print(f"Erreur : {script_path} introuvable.")
         return
     file_extension = os.path.splitext(script_path)[1]
     if file_extension == ".ps1":
         try:
             subprocess.run(["powershell", "-ExecutionPolicy", "Bypass", "-File", script_path], check=True)
         except subprocess.CalledProcessError as e:
-            print(f"Error executing PowerShell script: {e}")
+            print(f"Erreur lors de l'exécution du script PowerShell : {e}")
     else:
-        print(f"Unsupported script type: {file_extension}. Only .ps1 are supported.")
+        print(f"Type de script non supporté : {file_extension}. Seuls les fichiers .ps1 sont supportés.")
