@@ -1,6 +1,7 @@
 # Mini Shell
 
 A simple shell program written in Python that supports basic user, file, and process management commands. It simulates a Unix-like shell environment with commands for interacting with the system.
+The shell interface is designed to run in Windows Terminal and supports color-coded output for a better user experience.
 
 ## Features
 
