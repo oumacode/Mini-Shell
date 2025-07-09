@@ -27,11 +27,11 @@ The shell interface is designed to run in Windows Terminal and supports color-co
 - **`systeminfo`**: Display system information (OS details, CPU usage, etc.).
 - **`run <path>`**: Execute a script or executable located at `<path>`.
 
-- ![1](./assets/Screenshot%20(8).png)
-- ![2](./assets/Screenshot%20(9).png)
-- ![3](./assets/Screenshot%20(10).png)
-- ![4](./assets/Screenshot%20(11).png)
+ ![1](./assets/Screenshot%20(8).png)
+ ![2](./assets/Screenshot%20(9).png)
+ ![3](./assets/Screenshot%20(10).png)
+ ![4](./assets/Screenshot%20(11).png)
 
-- ![3](./assets/Screenshot%202025-07-07%20181559.png)
-- ![4](./assets/Screenshot%202025-07-07%20181618.png)
+ ![3](./assets/Screenshot%202025-07-07%20181559.png)
+ ![4](./assets/Screenshot%202025-07-07%20181618.png)
 
